@@ -13,12 +13,16 @@ public class Human {
         this.strength += wep.getStrength();
     }
 
+    public void setWep(Equipment wep) {
+        this.wep = wep;
+        this.strength += wep.getStrength();
+        this.health += wep.getHealth();
+        this.intelligence += wep.getIntelligence();
+    }
+
     public void chestLoot(){
         if (chest.getRoll() == 2){
-            this.wep = sword;
-            this.strength += sword.getStrength();
-            this.health += sword.getHealth();
-            this.intelligence += sword.getIntelligence();
+            setWep(sword);
             System.out.println("You've obtained a " + this.getWep() + "!");
         }else{
             this.health += p.getHealth();
