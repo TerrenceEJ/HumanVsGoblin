@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane id="display" fx:id="display" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <children>
+      <Text id="show" fx:id="show" layoutX="157.0" layoutY="36.0" onKeyPressed="#move" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="280.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <TextField id="console" fx:id="console" layoutX="226.0" layoutY="361.0" onKeyReleased="#move" />
+      <Text layoutX="77.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Move North/South/West/East? (n/s/w/e)">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>

@@ -1,6 +1,4 @@
-import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
-
 import static java.lang.System.exit;
 
 public class Land {
@@ -8,7 +6,7 @@ public class Land {
     Goblin g = new Goblin();
     Potion p = new Potion();
     Chest chest = new Chest();
-    char[][] fill = new char[5][5]; //grid that were working with
+    char[][] fill = new char[10][10]; //grid that were working with
     int size = fill.length-1;
     public static int battles = 0;
 
@@ -22,7 +20,7 @@ public class Land {
                     fill[i][j] = g.getMarker(); //initialize goblin location
                 }
                 else{
-                    fill[i][j] = 'X';
+                    fill[i][j] = '-';
                 }
             }
         }
@@ -30,7 +28,7 @@ public class Land {
 
     @Override
     public String toString(){
-        return ("Current map layout: \n" + getCurrent(fill));
+        return ("Current map layout:" + getCurrent(fill));
     }
 
     public String getCurrent(char[][] x){
@@ -144,13 +142,17 @@ public class Land {
                 System.out.println("You've found a potion off the goblin and healed for " + p.getHealth() + " HP!");
             }
             g.setHealth(30);
-            initChest();
+
+            if(battles % 3 == 0) {
+                initChest();
+                System.out.println("A chest has spawned somewhere, go find it!");//spawn goblin and chest
+            }
+
             battles++;
-            System.out.println("A chest has spawned somewhere, go find it!");//spawn goblin and chest
             int hc = getHumIndex().getFirst();
             int hr = getHumIndex().getSecond();
             if(l[hc][hr] == l[size][size] || hc+2 + hr+2 >= size + size){
-                l[hc][hr] = 'X';
+                l[hc][hr] = '-';
                 l[0][0] = h.getMarker();
                 l[size][size] = g.getMarker();
                 System.out.println("Spawning you to safety..."); //make sure human marker respawns starting point
@@ -171,6 +173,7 @@ public class Land {
     }
 
     public char[][] move(Character coord, char[][] x){
+        Controller controller = new Controller(); //handling input
         char[][] l = x;
         int c = getHumIndex().getFirst();
         int r = getHumIndex().getSecond();
@@ -205,16 +208,19 @@ public class Land {
                     break;
                 default:
                     System.out.println("error");
-                    l[c][r] = h.getMarker();
+                    System.out.println("\nYou can't move off the grid! Try again.");
+                    controller.setConsole("");
+                    String input = controller.getConsole().getText();
+                    move(input.charAt(0), l);
             }
         } catch (Exception e) {
             System.out.println("\nYou can't move off the grid! Try again.");
-            Scanner scanner = new Scanner(System.in);
-            String input = scanner.nextLine();
+            controller.setConsole("");
+            String input = controller.getConsole().getText();
             move(input.charAt(0), l);
         }
 
-        l[c][r] = 'X'; //remove current location
+        l[c][r] = '-'; //remove current location
         return l;
     }
 
@@ -225,7 +231,7 @@ public class Land {
         int fC = getHumIndex().getFirst();
         int fR = getHumIndex().getFirst();
         int range = ThreadLocalRandom.current().nextInt(0, 2);
-        l[c][r] = 'X'; //assign current location to empty in prep for move
+        l[c][r] = '-'; //assign current location to empty in prep for move
         try{
             if(c == fC && r == fR || (c+range == fC && r+range == fR) || (c-range == fC && r-range == fR)){
                 battle(l);

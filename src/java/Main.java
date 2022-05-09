@@ -1,29 +1,33 @@
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.util.Scanner;
 
-public class Main {
+public class Main extends Application {
+    @Override
+    public void start(Stage stage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("display.fxml"));
+        Scene scene = new Scene(root);
+        scene.setRoot(root);
+        stage.setScene(scene);
+        stage.setTitle("Humans Vs Goblins");
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
+
     public static void main(String[] args) {
-
-        Land land = new Land();
-        int turn = 1;
-
         System.out.println("Would you like to start Goblins vs Humans? y/n");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         if(input.charAt(0) == 'y'){
-            System.out.println(land);
-            while(turn > 0) { //inf loot. current plan is to let player play as long as they can
-
-                System.out.println("\nNow that you've seen the map layout, where would you like to move? n/s/e/w");
-                input = scanner.nextLine();
-
-                land.move(input.charAt(0), land.fill);
-                land.chase(land.fill);
-                System.out.println(land);
-                turn++;
-            }
+            launch(args);
 
         }else{
-            System.out.println(land + "\nEnding game.");
+            System.out.println("Ending game.");
+            System.exit(0);
         }
 
 
